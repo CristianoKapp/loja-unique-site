@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finalizar Pedido | UNIQUĒ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #fff0f5;
+      color: #333;
+    }
+
+    .banner-topo img {
+      width: 100%;
+      display: block;
+      max-height: 350px;
+      object-fit: cover;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      color: #c2185b;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      color: #880e4f;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #f3d3dd;
+      border-radius: 12px;
+      background-color: #fff;
+      margin-top: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #ec407a;
+      box-shadow: 0 0 5px rgba(236, 64, 122, 0.3);
+    }
+
+    .campo-duplo {
+      display: flex;
+      gap: 20px;
+    }
+
+    .campo-duplo > div {
+      flex: 1;
+    }
+
+    .aviso-frete {
+      margin-top: 25px;
+      font-size: 15px;
+      color: #880e4f;
+      background: #fce4ec;
+      padding: 14px 18px;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .botao-finalizar {
+      background-color: #fff;
+      border: 2px solid #f2c2d1;
+      border-radius: 30px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #d66b96;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 35px;
+      display: block;
+      width: 100%;
+    }
+
+    .botao-finalizar:hover {
+      background-color: #fef0f4;
+      color: #c64f7b;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 12px;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner-topo">
+  <img src="https://i.imgur.com/eznx6Uh.png" alt="Banner da loja UNIQUĒ">
+</div>
+
+<div class="container">
+  <h2>Finalizar Pedido</h2>
+
+  <label for="nome">Nome completo:</label>
+  <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+
+  <label for="email">E-mail:</label>
+  <input type="email" id="email" placeholder="exemplo@gmail.com" required>
+
+  <label for="telefone">Telefone (WhatsApp):</label>
+  <input type="tel" id="telefone" placeholder="(DDD) 99874-xxxx" required>
+
+  <label for="cep">CEP:</label>
+  <input type="text" id="cep" placeholder="84430-xxx" required>
+
+  <div class="campo-duplo">
+    <div>
+      <label for="cidade">Cidade:</label>
+      <input type="text" id="cidade" placeholder="Ex: São Paulo" required>
+    </div>
+    <div>
+      <label for="estado">Estado:</label>
+      <select id="estado" required>
+        <option value="">Selecione</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espírito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
+    </div>
+  </div>
+
+  <label for="rua">Rua:</label>
+  <input type="text" id="rua" required>
+
+  <label for="bairro">Bairro:</label>
+  <input type="text" id="bairro" required>
+
+  <label for="numero">Número:</label>
+  <input type="text" id="numero" required>
+
+  <label for="Complemento">Complemento:</label>
+  <input type="text" id="complemento" required>
+
+  <label for="referencia">Ponto de referência (opcional, mas recomendado):</label>
+  <input type="text" id="referencia">
+
+  <div class="aviso-frete" id="mensagem-frete">
+    Digite cidade e estado para calcular o frete.
+  </div>
+
+  <button class="botao-finalizar" onclick="finalizarPedido()">✨ IR PARA O PAGAMENTO ✨</button>
+</div>
+
+<footer>
+  UNIQUĒ Cosméticos e Estética
+</footer>
+
+<script>
+  const cidadeInput = document.getElementById('cidade');
+  const estadoInput = document.getElementById('estado');
+  const freteBox = document.getElementById('mensagem-frete');
+
+  cidadeInput.addEventListener('input', calcularFrete);
+  estadoInput.addEventListener('change', calcularFrete);
+
+  function calcularFrete() {
+    const cidade = cidadeInput.value.trim().toLowerCase();
+    const estado = estadoInput.value;
+
+    if (cidade === "guamiranga" && estado === "PR") {
+      freteBox.textContent = "✅ Frete grátis para Guamiranga - PR!";
+    } else if (cidade && estado) {
+      freteBox.textContent = "🚚 Frete será calculado automaticamente via Correios.";
+    } else {
+      freteBox.textContent = "Digite cidade e estado para calcular o frete.";
+    }
+  }
+
+  function finalizarPedido() {
+    const camposObrigatorios = [
+      'nome', 'email', 'telefone', 'cep', 'cidade',
+      'estado', 'rua', 'bairro', 'numero'
+    ];
+
+    for (const id of camposObrigatorios) {
+      const campo = document.getElementById(id);
+      if (!campo || campo.value.trim() === '') {
+        alert("⚠️ Por favor, preencha todos os campos obrigatórios antes de concluir o pedido.");
+        campo.focus();
+        return;
+      }
+    }
+
+    alert("✅ Todos os dados estão preenchidos. Redirecionando ao pagamento...");
+    // Aqui em breve entra o redirecionamento ao Mercado Pago
+  }
+</script>
+
+</body>
+</html>

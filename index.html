@@ -1,0 +1,370 @@
+<body>
+
+<!-- Botão Carrinho visível no topo apenas -->
+<div style="text-align: right; padding: 10px 20px;">
+  <button onclick="abrirCarrinho()" id="botao-carrinho-topo" style="
+    background-color: #fff;
+    border: 2px solid #f2c2d1;
+    border-radius: 30px;
+    padding: 6px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 16px;
+    font-weight: 500;
+    color: #d66b96;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  ">
+    🛍️ <span id="contador-itens">(0)</span>
+  </button>
+</div>
+
+<section class="banner">
+  <img src="https://i.imgur.com/vOFvxnC.png" alt="Banner da loja" class="banner-img">
+</section>
+
+<div class="conteudo-com-fundo">
+  <section class="cta">
+    <button onclick="document.getElementById('destaques').scrollIntoView({ behavior: 'smooth' })">Ver produtos</button>
+  </section>
+
+  <section id="destaques">
+    <h2>Destaques da Loja</h2>
+    <div class="slider-wrapper" id="slider-wrapper">
+      <div class="slider" id="slider">
+        <!-- PRODUTOS DESTAQUES (mantidos todos os 4) -->
+        <div class="produto-card">
+        <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
+        <h3>Hidratante Melu - Ruby Rose</h3>
+        <p class="preco">R$ 27,85</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
+        <h3>Fixador de Maquiagem - Ruby Rose</h3>
+        <p class="preco">R$ 23,78</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
+        <h3>Desodorante Aerossol - MELU</h3>
+        <p class="preco">R$ 13,86</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
+        <h3>Sabonete Facial Extrato de Uva - MELU</h3>
+        <p class="preco">R$ 23,95</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      </div>
+      <div class="slider-indicadores" id="slider-indicadores"></div>
+    </div>
+  </section>
+
+  <section id="produtos">
+    <h2>Todos os Produtos</h2>
+    <div class="produtos-grid">
+      <!-- TODOS OS PRODUTOS MANTIDOS -->
+      
+      <div class="produto-card">
+        <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
+        <h3>Hidratante Melu - Ruby Rose</h3>
+        <p class="preco">R$ 27,85</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
+        <h3>Fixador de Maquiagem - Ruby Rose</h3>
+        <p class="preco">R$ 23,78</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
+        <h3>Desodorante Aerossol - MELU</h3>
+        <p class="preco">R$ 13,86</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
+        <h3>Sabonete Facial Extrato de Uva - MELU</h3>
+        <p class="preco">R$ 23,95</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/TNE7c7N.jpeg" alt="Sabonete Facial Cremoso - Ruby Skin - Ruby Rose">
+        <h3>Sabonete Facial Cremoso - Ruby Skin - Ruby Rose</h3>
+        <p class="preco">R$ 16,30</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/hI24EOy.jpeg" alt="Carmed Isis - Hidratante Labial - Amora">
+        <h3>Carmed Isis - Hidratante Labial - Amora</h3>
+        <p class="preco">R$ 10,85</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/J9qRqow.jpeg" alt="Carmed Isis - Hidratante Labial - Banana">
+        <h3>Carmed Isis - Hidratante Labial - Banana</h3>
+        <p class="preco">R$ 10,85</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/LTzzst8.jpeg" alt="Máscara de Cílios - MELU">
+        <h3>Máscara de Cílios - MELU</h3>
+        <p class="preco">R$ 21,85</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/joJAZfE.jpeg" alt="Blush Duo - Ruby Rose">
+        <h3>Blush Duo - Ruby Rose</h3>
+        <p class="preco">R$ 30,65</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+      <div class="produto-card">
+        <img src="https://i.imgur.com/hZD9CK0.jpeg?1" alt="Gloss - Bobbi Rara">
+        <h3>Gloss - Bobbi Rara</h3>
+        <p class="preco">R$ 11,95</p>
+        <div class="grupo-botoes">
+          <button class="btn-comprar">Comprar</button>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p style="font-size: 12px; color: #888; text-align: center; padding: 20px 10px;">
+    Imagem de fundo com créditos a Freepik
+  </p>
+</footer>
+
+<!-- MODAL de confirmação atualizado -->
+<div id="modal-opcoes" class="modal">
+  <div class="modal-content">
+    <p>Produto adicionado ao carrinho!</p>
+    <div class="botoes-modal">
+      <button onclick="fecharModal();abrirCarrinho()">Ir para o Carrinho</button>
+      <button onclick="fecharModal()">Continuar Comprando</button>
+    </div>
+  </div>
+</div>
+
+<!-- Carrinho Lateral -->
+<div id="carrinho" class="carrinho">
+  <div class="carrinho-header">
+    <h3>Seu Carrinho</h3>
+    <button onclick="fecharCarrinho()">✕</button>
+  </div>
+  <div id="carrinho-itens" class="carrinho-itens"></div>
+
+  <div id="total-carrinho">
+    🛍️ <strong>Total:</strong> <span id="valor-total">R$ 0,00</span>
+  </div>
+
+  <!-- Botão de concluir pedido moderno -->
+  <div class="finalizar-compra">
+    <button class="botao-finalizar" onclick="irParaCheckout()">✨ CONCLUIR PEDIDO ✨</button>
+  </div>
+</div>
+
+<!-- ✅ Agora está fora do carrinho -->
+<div id="lightbox" class="lightbox">
+  <span class="fechar-lightbox" onclick="fecharLightbox()">✕</span>
+  <img id="lightbox-img" src="" alt="Imagem ampliada">
+</div>
+
+  
+</div>
+<script>
+  const slider = document.getElementById('slider');
+  const wrapper = document.getElementById('slider-wrapper');
+  const cards = slider.querySelectorAll('.produto-card');
+  const indicadores = document.getElementById('slider-indicadores');
+  let currentIndex = 0;
+  let isPaused = false;
+
+  const cardsPorSlide = 2;
+  const totalSlides = Math.ceil(cards.length / cardsPorSlide);
+
+  function scrollToSlide(index) {
+    const cardWidth = cards[0].offsetWidth + 20;
+    slider.scrollTo({ left: cardWidth * cardsPorSlide * index, behavior: 'smooth' });
+
+    Array.from(indicadores.children).forEach((dot, i) => {
+      dot.classList.toggle('ativo', i === index);
+    });
+  }
+
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('span');
+    dot.classList.add('indicador');
+    if (i === 0) dot.classList.add('ativo');
+    dot.addEventListener('click', () => {
+      currentIndex = i;
+      scrollToSlide(currentIndex);
+    });
+    indicadores.appendChild(dot);
+  }
+
+  setInterval(() => {
+    if (!isPaused) {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      scrollToSlide(currentIndex);
+    }
+  }, 3500);
+
+  wrapper.addEventListener('mouseenter', () => isPaused = true);
+  wrapper.addEventListener('mouseleave', () => isPaused = false);
+  wrapper.addEventListener('touchstart', () => isPaused = true);
+  wrapper.addEventListener('touchend', () => isPaused = false);
+
+  const modal = document.getElementById("modal-opcoes");
+  const carrinho = document.getElementById("carrinho");
+  const carrinhoItens = document.getElementById("carrinho-itens");
+  const totalSpan = document.getElementById("valor-total");
+  const contadorItens = document.getElementById("contador-itens");
+
+  let carrinhoDados = [];
+
+  function abrirModal() {
+    modal.style.display = "block";
+  }
+
+  function fecharModal() {
+    modal.style.display = "none";
+  }
+
+  function abrirCarrinho() {
+    carrinho.classList.add("aberto");
+    atualizarCarrinhoUI();
+  }
+
+  function fecharCarrinho() {
+    carrinho.classList.remove("aberto");
+  }
+
+  function adicionarAoCarrinho(nome, preco) {
+    const itemExistente = carrinhoDados.find(p => p.nome === nome);
+    if (itemExistente) {
+      itemExistente.quantidade += 1;
+    } else {
+      carrinhoDados.push({ nome, preco, quantidade: 1 });
+    }
+    abrirModal();
+    atualizarCarrinhoUI();
+  }
+
+  function alterarQuantidade(nome, delta) {
+    const item = carrinhoDados.find(p => p.nome === nome);
+    if (!item) return;
+    item.quantidade += delta;
+    if (item.quantidade <= 0) {
+      carrinhoDados = carrinhoDados.filter(p => p.nome !== nome);
+    }
+    atualizarCarrinhoUI();
+  }
+
+  function atualizarCarrinhoUI() {
+    carrinhoItens.innerHTML = "";
+    let total = 0;
+    let totalItens = 0;
+
+    carrinhoDados.forEach(item => {
+      total += item.preco * item.quantidade;
+      totalItens += item.quantidade;
+
+      const div = document.createElement("div");
+      div.classList.add("item");
+      div.innerHTML = `
+        <span>${item.nome} (R$ ${item.preco.toFixed(2).replace('.', ',')})</span>
+        <div class="controles-quantidade">
+          <button onclick="alterarQuantidade('${item.nome}', -1)">−</button>
+          <span>${item.quantidade}</span>
+          <button onclick="alterarQuantidade('${item.nome}', 1)">+</button>
+        </div>
+      `;
+      carrinhoItens.appendChild(div);
+    });
+
+    totalSpan.textContent = "R$ " + total.toFixed(2).replace(".", ",");
+    contadorItens.textContent = `(${totalItens})`;
+  }
+
+  document.querySelectorAll(".btn-comprar").forEach(botao => {
+    botao.addEventListener("click", () => {
+      const card = botao.closest(".produto-card");
+      const nome = card.querySelector("h3").innerText;
+      const preco = card.querySelector(".preco").innerText.replace("R$ ", "").replace(",", ".");
+      adicionarAoCarrinho(nome, parseFloat(preco));
+    });
+  });
+
+  function irParaCheckout() {
+    alert("Página de checkout será criada em breve!");
+  }
+
+</script>
+  
+<script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+
+  function abrirLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.style.display = "flex";
+  }
+
+  function fecharLightbox() {
+    lightbox.style.display = "none";
+    lightboxImg.src = "";
+  }
+
+  // Adiciona o evento de clique em todas as imagens dos produtos
+  document.querySelectorAll(".produto-card img").forEach(img => {
+    img.addEventListener("click", () => {
+      abrirLightbox(img.src);
+    });
+  });
+</script>
+
+
