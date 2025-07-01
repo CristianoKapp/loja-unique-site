@@ -132,10 +132,11 @@
     }
 
     .produtos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
 
     .produto-card {
       background-color: #ffffff;
@@ -430,6 +431,32 @@
       cursor: pointer;
       font-weight: bold;
     }
+/* Responsividade aprimorada para telas menores */
+@media (max-width: 500px) {
+  .produtos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 10px;
+  }
+
+  .produto-card {
+    padding: 12px;
+  }
+
+  .produto-card h3 {
+    font-size: 1rem;
+  }
+
+  .produto-card .preco {
+    font-size: 0.95rem;
+  }
+
+  .btn-comprar {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -696,7 +723,7 @@
   const totalSpan = document.getElementById("valor-total");
   const contadorItens = document.getElementById("contador-itens");
 
-  let carrinhoDados = [];
+  let carrinhoDados = JSON.parse(localStorage.getItem("carrinho")) || [];
 
   function abrirModal() {
     modal.style.display = "block";
@@ -716,25 +743,28 @@
   }
 
   function adicionarAoCarrinho(nome, preco) {
-    const itemExistente = carrinhoDados.find(p => p.nome === nome);
-    if (itemExistente) {
-      itemExistente.quantidade += 1;
-    } else {
-      carrinhoDados.push({ nome, preco, quantidade: 1 });
-    }
-    abrirModal();
-    atualizarCarrinhoUI();
+  const itemExistente = carrinhoDados.find(p => p.nome === nome);
+  if (itemExistente) {
+    itemExistente.quantidade += 1;
+  } else {
+    carrinhoDados.push({ nome, preco, quantidade: 1 });
   }
+  localStorage.setItem("carrinho", JSON.stringify(carrinhoDados)); // <-- salva no localStorage
+  abrirModal();
+  atualizarCarrinhoUI();
+}
+
 
   function alterarQuantidade(nome, delta) {
-    const item = carrinhoDados.find(p => p.nome === nome);
-    if (!item) return;
-    item.quantidade += delta;
-    if (item.quantidade <= 0) {
-      carrinhoDados = carrinhoDados.filter(p => p.nome !== nome);
-    }
-    atualizarCarrinhoUI();
+  const item = carrinhoDados.find(p => p.nome === nome);
+  if (!item) return;
+  item.quantidade += delta;
+  if (item.quantidade <= 0) {
+    carrinhoDados = carrinhoDados.filter(p => p.nome !== nome);
   }
+  localStorage.setItem("carrinho", JSON.stringify(carrinhoDados)); // <-- salva no localStorage
+  atualizarCarrinhoUI();
+}
 
   function atualizarCarrinhoUI() {
     carrinhoItens.innerHTML = "";
@@ -774,6 +804,13 @@
   function irParaCheckout() {
   window.location.href = "checkout.html";
 }
+
+// Se o hash da URL for #carrinho, abre o carrinho automaticamente ao carregar a página
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === "#carrinho") {
+    abrirCarrinho();
+  }
+});
 
 </script>
   
