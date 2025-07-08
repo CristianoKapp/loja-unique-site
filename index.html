@@ -17,6 +17,33 @@
       background-color: #fff0f5;
       color: #333;
       line-height: 1.6;
+      /* Removido padding-top daqui, pois o novo wrapper de conteúdo cuidará disso */
+      /* ✅ IMPORTANTE: Garante que o body não tenha rolagem própria */
+      overflow: hidden; /* Oculta a barra de rolagem principal do body */
+      height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+      position: relative; /* Necessário para o posicionamento absoluto do wrapper */
+    }
+
+    /* ✅ CORREÇÃO CRÍTICA MAIS FORTE: Garante que html e body não criem um novo contexto de empilhamento/contenção */
+    html, body {
+        transform: none !important;
+        filter: none !important;
+        perspective: none !important;
+        will-change: auto !important;
+        position: static !important; /* Garante que não haja position: relative ou absolute que possa interferir */
+        /* overflow: visible !important; - Removido aqui, pois 'body' agora tem 'overflow: hidden' */
+    }
+
+    /* ✅ NOVO: Wrapper para o conteúdo que deve rolar */
+    #main-scrollable-content {
+      position: absolute; /* Posiciona em relação ao body */
+      top: 60px; /* Espaço para os botões fixos no topo */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: auto; /* Adiciona rolagem vertical a este div */
+      -webkit-overflow-scrolling: touch; /* Melhora a rolagem em dispositivos iOS */
+      z-index: 10; /* Garante que esteja abaixo dos botões fixos */
     }
 
     .conteudo-com-fundo {
@@ -33,6 +60,8 @@
       background-color: #f8bbd0;
       padding: 60px 20px;
       text-align: center;
+      position: relative; /* Mantido para empilhamento correto com o conteúdo */
+      z-index: 1; /* Mantido para empilhamento correto com o conteúdo */
     }
 
     .banner-placeholder {
@@ -132,11 +161,11 @@
     }
 
     .produtos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
-  justify-content: center;
-}
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
 
     .produto-card {
       background-color: #ffffff;
@@ -213,7 +242,7 @@
     .modal {
       display: none;
       position: fixed;
-      z-index: 1001;
+      z-index: 10000;
       left: 0;
       top: 0;
       width: 100%;
@@ -280,7 +309,7 @@
       padding: 20px;
       transform: translateX(100%);
       transition: transform 0.3s ease;
-      z-index: 1000;
+      z-index: 9000;
     }
 
     .carrinho.aberto {
@@ -404,7 +433,7 @@
     .lightbox {
       display: none;
       position: fixed;
-      z-index: 2000;
+      z-index: 8000;
       top: 0;
       left: 0;
       width: 100%;
@@ -431,213 +460,327 @@
       cursor: pointer;
       font-weight: bold;
     }
-/* Responsividade aprimorada para telas menores */
-@media (max-width: 500px) {
-  .produtos-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 0 10px;
-  }
 
-  .produto-card {
-    padding: 12px;
-  }
+    /* Responsividade aprimorada para telas menores */
+    @media (max-width: 500px) {
+      .produtos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 0 10px;
+      }
 
-  .produto-card h3 {
-    font-size: 1rem;
-  }
+      .produto-card {
+        padding: 12px;
+      }
 
-  .produto-card .preco {
-    font-size: 0.95rem;
-  }
+      .produto-card h3 {
+        font-size: 1rem;
+      }
 
-  .btn-comprar {
-    padding: 10px 16px;
-    font-size: 0.9rem;
-  }
-}
+      .produto-card .preco {
+        font-size: 0.95rem;
+      }
+
+      .btn-comprar {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* ✅ Botões fixos com z-index muito alto e posicionamento correto */
+    #botao-categorias-fixo {
+      position: fixed !important;
+      top: 15px !important;
+      left: 15px !important;
+      z-index: 99999 !important; /* Muito alto para ficar acima de tudo */
+    }
+
+    #botao-categorias-fixo button {
+      background-color: #fff;
+      border: 2px solid #f2c2d1;
+      border-radius: 30px;
+      padding: 8px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 14px;
+      font-weight: 600;
+      color: #d66b96;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    #botao-categorias-fixo button:hover {
+      background-color: #fff0f5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ✅ Botão do carrinho com z-index muito alto */
+    #botao-carrinho-fixo {
+      position: fixed !important;
+      top: 15px !important;
+      right: 15px !important;
+      z-index: 99999 !important; /* Muito alto para ficar acima de tudo */
+    }
+
+    #botao-carrinho-topo {
+      background-color: #fff;
+      border: 2px solid #f2c2d1;
+      border-radius: 30px;
+      padding: 8px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 14px;
+      font-weight: 600;
+      color: #d66b96;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    #botao-carrinho-topo:hover {
+      background-color: #fff0f5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ✅ Menu de categorias com z-index alto mas menor que os botões */
+    #menu-categorias {
+      position: fixed;
+      top: 65px;
+      left: 15px;
+      background-color: white;
+      border: 2px solid #f2c2d1;
+      border-radius: 12px;
+      padding: 12px;
+      display: none;
+      flex-direction: column;
+      z-index: 50000; /* Alto mas menor que os botões fixos */
+      max-height: 70vh;
+      overflow-y: auto;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      min-width: 200px;
+    }
+
+    #menu-categorias a {
+      margin: 4px 0;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #c2185b;
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    #menu-categorias a:hover {
+      background-color: #fff0f5;
+      color: #880e4f;
+      transform: translateX(3px);
+    }
+
+    /* ✅ Garante que banner e fundo fiquem abaixo dos botões fixos */
+    .banner,
+    .conteudo-com-fundo {
+      position: relative;
+      z-index: 1;
+    }
 
   </style>
 </head>
+
 <body>
 
-<!-- Botão Carrinho visível no topo apenas -->
-<div style="text-align: right; padding: 10px 20px;">
-  <button onclick="abrirCarrinho()" id="botao-carrinho-topo" style="
-    background-color: #fff;
-    border: 2px solid #f2c2d1;
-    border-radius: 30px;
-    padding: 6px 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 16px;
-    font-weight: 500;
-    color: #d66b96;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  ">
+<!-- ✅ Botões fixos devem sempre vir primeiro no HTML para facilitar o z-index e posicionamento -->
+<!-- Botão Carrinho fixo no topo à direita -->
+<div id="botao-carrinho-fixo">
+  <button onclick="abrirCarrinho()" id="botao-carrinho-topo">
     🛍️ <span id="contador-itens">(0)</span>
   </button>
 </div>
 
-<section class="banner">
-  <img src="https://i.imgur.com/vOFvxnC.png" alt="Banner da loja" class="banner-img">
-</section>
-
-<div class="conteudo-com-fundo">
-  <section class="cta">
-    <button onclick="document.getElementById('destaques').scrollIntoView({ behavior: 'smooth' })">Ver produtos</button>
-  </section>
-
-  <section id="destaques">
-    <h2>Destaques da Loja</h2>
-    <div class="slider-wrapper" id="slider-wrapper">
-      <div class="slider" id="slider">
-        <!-- PRODUTOS DESTAQUES (mantidos todos os 4) -->
-        <div class="produto-card">
-        <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
-        <h3>Hidratante Melu - Ruby Rose</h3>
-        <p class="preco">R$ 27,85</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
-        <h3>Fixador de Maquiagem - Ruby Rose</h3>
-        <p class="preco">R$ 23,78</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
-        <h3>Desodorante Aerossol - MELU</h3>
-        <p class="preco">R$ 13,86</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
-        <h3>Sabonete Facial Extrato de Uva - MELU</h3>
-        <p class="preco">R$ 23,95</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      </div>
-      <div class="slider-indicadores" id="slider-indicadores"></div>
-    </div>
-  </section>
-
-  <section id="produtos">
-    <h2>Todos os Produtos</h2>
-    <div class="produtos-grid">
-      <!-- TODOS OS PRODUTOS MANTIDOS -->
-      
-      <div class="produto-card">
-        <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
-        <h3>Hidratante Melu - Ruby Rose</h3>
-        <p class="preco">R$ 27,85</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
-        <h3>Fixador de Maquiagem - Ruby Rose</h3>
-        <p class="preco">R$ 23,78</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
-        <h3>Desodorante Aerossol - MELU</h3>
-        <p class="preco">R$ 13,86</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
-        <h3>Sabonete Facial Extrato de Uva - MELU</h3>
-        <p class="preco">R$ 23,95</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/TNE7c7N.jpeg" alt="Sabonete Facial Cremoso - Ruby Skin - Ruby Rose">
-        <h3>Sabonete Facial Cremoso - Ruby Skin - Ruby Rose</h3>
-        <p class="preco">R$ 16,30</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/hI24EOy.jpeg" alt="Carmed Isis - Hidratante Labial - Amora">
-        <h3>Carmed Isis - Hidratante Labial - Amora</h3>
-        <p class="preco">R$ 10,85</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/J9qRqow.jpeg" alt="Carmed Isis - Hidratante Labial - Banana">
-        <h3>Carmed Isis - Hidratante Labial - Banana</h3>
-        <p class="preco">R$ 10,85</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/LTzzst8.jpeg" alt="Máscara de Cílios - MELU">
-        <h3>Máscara de Cílios - MELU</h3>
-        <p class="preco">R$ 21,85</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/joJAZfE.jpeg" alt="Blush Duo - Ruby Rose">
-        <h3>Blush Duo - Ruby Rose</h3>
-        <p class="preco">R$ 30,65</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-      <div class="produto-card">
-        <img src="https://i.imgur.com/hZD9CK0.jpeg?1" alt="Gloss - Bobbi Rara">
-        <h3>Gloss - Bobbi Rara</h3>
-        <p class="preco">R$ 11,95</p>
-        <div class="grupo-botoes">
-          <button class="btn-comprar">Comprar</button>
-          
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Botão Categorias fixo à esquerda -->
+<div id="botao-categorias-fixo">
+  <button onclick="toggleMenuCategorias()">☰ Categorias</button>
 </div>
 
-<footer>
-  <p style="font-size: 12px; color: #888; text-align: center; padding: 20px 10px;">
-    Imagem de fundo com créditos a Freepik
-  </p>
-</footer>
+<!-- Menu de categorias -->
+<nav id="menu-categorias">
+  <a href="#categoria-labios">💄 Lábios</a>
+  <a href="#categoria-unhas">💅 Unhas</a>
+  <a href="#categoria-cabelos">💇‍♀️ Cabelos</a>
+  <a href="#categoria-rosto">🌸 Rosto</a>
+  <a href="#categoria-corpo">🧴 Corpo e Banho</a>
+  <a href="#categoria-olhos">👁️ Olhos</a>
+  <a href="#categoria-pes">🦶 Pés</a>
+  <a href="#categoria-perfumes">🌺 Perfumes</a>
+  <a href="#categoria-acessorios">👜 Acessórios</a>
+  <a href="#categoria-joias">💍 Jóias em Prata</a>
+  <a href="#categoria-promocao">🔥 Promoção</a>
+</nav>
+
+<!-- ✅ NOVO: Wrapper para o conteúdo que deve rolar -->
+<div id="main-scrollable-content">
+  <section class="banner">
+    <img src="https://i.imgur.com/vOFvxnC.png" alt="Banner da loja" class="banner-img">
+  </section>
+
+  <div class="conteudo-com-fundo">
+    <section class="cta">
+      <button onclick="document.getElementById('destaques').scrollIntoView({ behavior: 'smooth' })">Ver produtos</button>
+    </section>
+
+    <section id="destaques">
+      <h2>Destaques da Loja</h2>
+      <div class="slider-wrapper" id="slider-wrapper">
+        <div class="slider" id="slider">
+          <!-- PRODUTOS DESTAQUES (mantidos todos os 4) -->
+          <div class="produto-card">
+          <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
+          <h3>Hidratante Melu - Ruby Rose</h3>
+          <p class="preco">R$ 27,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
+          <h3>Fixador de Maquiagem - Ruby Rose</h3>
+          <p class="preco">R$ 23,78</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
+          <h3>Desodorante Aerossol - MELU</h3>
+          <p class="preco">R$ 13,86</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
+          <h3>Sabonete Facial Extrato de Uva - MELU</h3>
+          <p class="preco">R$ 23,95</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        </div>
+        <div class="slider-indicadores" id="slider-indicadores"></div>
+      </div>
+    </section>
+
+    <section id="produtos">
+      <h2>Todos os Produtos</h2>
+      <div class="produtos-grid">
+        <!-- TODOS OS PRODUTOS MANTIDOS -->
+        
+        <div class="produto-card">
+          <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
+          <h3>Hidratante Melu - Ruby Rose</h3>
+          <p class="preco">R$ 27,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
+          <h3>Fixador de Maquiagem - Ruby Rose</h3>
+          <p class="preco">R$ 23,78</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
+          <h3>Desodorante Aerossol - MELU</h3>
+          <p class="preco">R$ 13,86</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
+          <h3>Sabonete Facial Extrato de Uva - MELU</h3>
+          <p class="preco">R$ 23,95</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/TNE7c7N.jpeg" alt="Sabonete Facial Cremoso - Ruby Skin - Ruby Rose">
+          <h3>Sabonete Facial Cremoso - Ruby Skin - Ruby Rose</h3>
+          <p class="preco">R$ 16,30</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/hI24EOy.jpeg" alt="Carmed Isis - Hidratante Labial - Amora">
+          <h3>Carmed Isis - Hidratante Labial - Amora</h3>
+          <p class="preco">R$ 10,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/J9qRqow.jpeg" alt="Carmed Isis - Hidratante Labial - Banana">
+          <h3>Carmed Isis - Hidratante Labial - Banana</h3>
+          <p class="preco">R$ 10,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/LTzzst8.jpeg" alt="Máscara de Cílios - MELU">
+          <h3>Máscara de Cílios - MELU</h3>
+          <p class="preco">R$ 21,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/joJAZfE.jpeg" alt="Blush Duo - Ruby Rose">
+          <h3>Blush Duo - Ruby Rose</h3>
+          <p class="preco">R$ 30,65</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/hZD9CK0.jpeg?1" alt="Gloss - Bobbi Rara">
+          <h3>Gloss - Bobbi Rara</h3>
+          <p class="preco">R$ 11,95</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p style="font-size: 12px; color: #888; text-align: center; padding: 20px 10px;">
+      Imagem de fundo com créditos a Freepik
+    </p>
+  </footer>
+</div> <!-- Fim de #main-scrollable-content -->
 
 <!-- MODAL de confirmação atualizado -->
 <div id="modal-opcoes" class="modal">
@@ -803,6 +946,14 @@
 
   function irParaCheckout() {
   window.location.href = "checkout.html";
+}
+function toggleMenuCategorias() {
+  const menu = document.getElementById("menu-categorias");
+  if (menu.style.display === "flex") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "flex";
+  }
 }
 
 // Se o hash da URL for #carrinho, abre o carrinho automaticamente ao carregar a página
