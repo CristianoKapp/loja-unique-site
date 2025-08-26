@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finalizar Pedido | UNIQUĒ</title>
+    <style>
+        /* Estilos base */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f8f0f5; /* Tom mais suave de rosa */
+            color: #444;
+            line-height: 1.7;
+            padding-bottom: 60px; /* Espaço para o rodapé */
+        }
+        .banner-topo {
+            width: 100%;
+            overflow: hidden; /* Garante que a imagem não vaze */
+        }
+        .banner-topo img {
+            width: 100%;
+            display: block;
+            object-fit: cover; /* Adapta a imagem sem deformar */
+        }
+
+        /* Estilos do Container Principal */
+        .container {
+            max-width: 700px; /* Largura um pouco maior para respiro */
+            margin: 40px auto;
+            padding: 35px 30px;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06); /* Sombra mais presente */
+        }
+        h2 {
+            text-align: center;
+            color: #e91e63; /* Rosa mais vibrante */
+            margin-bottom: 35px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #9c27b0; /* Roxo suave para os rótulos */
+            font-size: 1.1rem;
+        }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 15px 18px;
+            margin-bottom: 25px;
+            border: 1px solid #f48fb1; /* Rosa mais suave para as bordas */
+            border-radius: 15px;
+            font-size: 1rem;
+            background-color: #fce4ec; /* Rosa bem claro para os campos */
+            transition: all 0.3s ease-in-out;
+            box-sizing: border-box;
+            color: #555;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #e91e63;
+            box-shadow: 0 0 5px rgba(233, 30, 99, 0.3);
+            background-color: #fff;
+        }
+
+        /* Layout em Linhas */
+        .grupo-linha {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .grupo-linha > div {
+            flex: 1 1 48%;
+            min-width: 200px;
+        }
+        .grupo-linha input,
+        .grupo-linha select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        @media (max-width: 700px) {
+            .grupo-linha {
+                flex-direction: column;
+            }
+            .grupo-linha > div {
+                flex: 1 1 100%;
+                min-width: auto;
+            }
+        }
+
+        /* Aviso de Frete */
+        .aviso-frete {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            color: #fff;
+            background: #ff4081; /* Rosa mais chamativo para o frete */
+            padding: 18px 22px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255,64,129,0.3);
+        }
+
+        /* Botão Finalizar Pedido */
+        .botao-finalizar {
+            background-color: #f50057; /* Rosa bem escuro e vibrante */
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            margin-top: 40px;
+            display: block;
+            width: 100%;
+            box-shadow: 0 7px 20px rgba(245, 0, 87, 0.4);
+        }
+        .botao-finalizar:hover {
+            background-color: #c51162;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(197, 17, 98, 0.5);
+        }
+
+        /* Resumo do Pedido */
+        .resumo-pedido {
+            margin-bottom: 40px;
+            background: #ffebee; /* Rosa bem claro de fundo */
+            border: 1px solid #f8bbd0;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(255, 235, 238, 0.5);
+        }
+        .resumo-pedido h3 {
+            margin-top: 0;
+            color: #e91e63;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f48fb1;
+            padding-bottom: 10px;
+        }
+        .resumo-pedido ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+        .resumo-pedido li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #f48fb1;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        .resumo-pedido li span {
+            font-weight: bold;
+            color: #d81b60;
+        }
+        .resumo-pedido strong {
+            display: block;
+            text-align: right;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            color: #f50057;
+        }
+
+        /* Voltar ao Carrinho */
+        .voltar-carrinho {
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 1.1rem;
+            color: #9c27b0;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+        .voltar-carrinho:hover {
+            color: #e91e63;
+            text-decoration: underline;
+        }
+
+        /* Rodapé */
+        footer {
+            text-align: center;
+            padding: 30px 10px;
+            font-size: 1rem;
+            color: #888;
+            margin-top: 50px;
+            border-top: 1px solid #f48fb1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="banner-topo">
+    <img src="https://i.imgur.com/eznx6Uh.png" alt="Banner da loja UNIQUĒ">
+</div>
+
+<div class="container">
+
+    <div class="resumo-pedido" id="resumo-pedido">
+        <h3>🧾 Resumo do seu Pedido</h3>
+        <ul id="lista-itens"></ul>
+        <strong>Total: <span id="valor-total">R$ 0,00</span></strong>
+        <a href="index.html#carrinho" class="voltar-carrinho">← Voltar ao carrinho</a>
+    </div>
+
+    <h2>Informações de Entrega</h2>
+
+    <form id="checkout-form">
+        <label for="nome">Nome completo:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="exemplo@gmail.com" required>
+
+        <label for="telefone">Telefone (WhatsApp):</label>
+        <input type="tel" id="telefone" placeholder="(DDD) 99874-xxxx" required>
+
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" placeholder="84430-xxx" required>
+
+        <div class="grupo-linha">
+            <div>
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" placeholder="Ex: Imbituva" required>
+            </div>
+            <div>
+                <label for="estado">Estado:</label>
+                <select id="estado" required>
+                    <option value="">Selecione</option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="rua">Rua:</label>
+        <input type="text" id="rua" required>
+
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" required>
+
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" required>
+
+        <label for="complemento">Complemento:</label>
+        <input type="text" id="complemento">
+
+        <label for="referencia">Ponto de referência (opcional):</label>
+        <input type="text" id="referencia">
+
+        <div class="aviso-frete" id="mensagem-frete">
+            Digite cidade e estado para calcular o frete.
+        </div>
+
+        <button class="botao-finalizar" type="submit">✨ IR PARA O PAGAMENTO ✨</button>
+    </form>
+</div>
+
+<footer>
+    UNIQUĒ Cosméticos e Estética
+</footer>
+
+<script>
+    // Seletor de elementos
+    const form = document.getElementById('checkout-form');
+    const cidadeInput = document.getElementById('cidade');
+    const estadoInput = document.getElementById('estado');
+    const freteBox = document.getElementById('mensagem-frete');
+    const listaItens = document.getElementById('lista-itens');
+    const valorTotalSpan = document.getElementById('valor-total');
+
+    // Eventos
+    cidadeInput.addEventListener('input', calcularFrete);
+    estadoInput.addEventListener('change', calcularFrete);
+    form.addEventListener('submit', finalizarPedido);
+
+    // Funções
+    function calcularFrete() {
+        const estado = estadoInput.value;
+        const cidade = cidadeInput.value.trim().toLowerCase();
+        let valorFrete = 0;
+        let total = 0;
+
+        // Tabela de fretes fixos
+        const tabelaFrete = {
+            "SUL": 20.00,
+            "SUDESTE": 25.00,
+            "CENTRO-OESTE": 30.00,
+            "NORDESTE": 30.00,
+            "NORTE": 40.00
+        };
+
+        // Frete grátis para sua cidade
+        if (cidade === "guamiranga" && estado === "PR") {
+            valorFrete = 0;
+            freteBox.textContent = "✅ Frete grátis para Guamiranga - PR!";
+            freteBox.style.backgroundColor = '#4CAF50';
+        }
+        // Lógica para frete fixo por região
+        else if (["PR", "RS", "SC"].includes(estado)) {
+            valorFrete = tabelaFrete.SUL;
+            freteBox.textContent = "🚚 Frete para a sua região: R$ " + valorFrete.toFixed(2).replace(".", ",");
+            freteBox.style.backgroundColor = '#ff4081';
+        }
+        else if (["SP", "RJ", "MG", "ES"].includes(estado)) {
+            valorFrete = tabelaFrete.SUDESTE;
+            freteBox.textContent = "🚚 Frete para a sua região: R$ " + valorFrete.toFixed(2).replace(".", ",");
+            freteBox.style.backgroundColor = '#ff4081';
+        }
+        else if (["DF", "GO", "MT", "MS"].includes(estado)) {
+            valorFrete = tabelaFrete.CENTRO-OESTE;
+            freteBox.textContent = "🚚 Frete para a sua região: R$ " + valorFrete.toFixed(2).replace(".", ",");
+            freteBox.style.backgroundColor = '#ff4081';
+        }
+        else if (["BA", "SE", "AL", "PE", "PB", "RN", "CE", "PI", "MA"].includes(estado)) {
+            valorFrete = tabelaFrete.NORDESTE;
+            freteBox.textContent = "🚚 Frete para a sua região: R$ " + valorFrete.toFixed(2).replace(".", ",");
+            freteBox.style.backgroundColor = '#ff4081';
+        }
+        else if (["AM", "RR", "AP", "PA", "TO", "RO", "AC"].includes(estado)) {
+            valorFrete = tabelaFrete.NORTE;
+            freteBox.textContent = "🚚 Frete para a sua região: R$ " + valorFrete.toFixed(2).replace(".", ",");
+            freteBox.style.backgroundColor = '#ff4081';
+        }
+        else {
+            freteBox.textContent = "Digite cidade e estado para calcular o frete.";
+            freteBox.style.backgroundColor = '#ff4081';
+            return;
+        }
+
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        carrinho.forEach(item => {
+            total += item.preco * item.quantidade;
+        });
+        
+        const totalComFrete = total + valorFrete;
+        valorTotalSpan.textContent = "R$ " + totalComFrete.toFixed(2).replace(".", ",");
+    }
+
+    function finalizarPedido(event) {
+        event.preventDefault(); // Impede o envio do formulário padrão
+
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        if (carrinho.length === 0) {
+            alert("⚠️ Seu carrinho está vazio. Adicione produtos antes de finalizar o pedido.");
+            return;
+        }
+
+        const camposObrigatorios = [
+            'nome', 'email', 'telefone', 'cep', 'cidade',
+            'estado', 'rua', 'bairro', 'numero'
+        ];
+        for (const id of camposObrigatorios) {
+            const campo = document.getElementById(id);
+            if (!campo || campo.value.trim() === '') {
+                alert("⚠️ Por favor, preencha todos os campos obrigatórios antes de concluir o pedido.");
+                campo.focus();
+                return;
+            }
+        }
+
+        alert("✅ Todos os dados estão preenchidos. Redirecionando ao pagamento...");
+        // Em breve: redirecionar ao Mercado Pago
+    }
+
+    function carregarResumoCarrinho() {
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        listaItens.innerHTML = "";
+        let total = 0;
+        if (carrinho.length === 0) {
+            listaItens.innerHTML = "<li><em>Carrinho vazio</em></li>";
+            return;
+        }
+        carrinho.forEach(item => {
+            const li = document.createElement("li");
+            li.innerHTML = `${item.nome} × ${item.quantidade} <span>R$ ${(item.preco * item.quantidade).toFixed(2).replace(".", ",")}</span>`;
+            listaItens.appendChild(li);
+            total += item.preco * item.quantidade;
+        });
+        valorTotalSpan.textContent = "R$ " + total.toFixed(2).replace(".", ",");
+    }
+
+    // Inicialização da página
+    window.onload = carregarResumoCarrinho;
+</script>
+
+</body>
+</html>
