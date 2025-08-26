@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1212,3 +1213,996 @@ document.getElementById('lightbox').addEventListener('click', function(event) {
 </a>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja UNIQUĒ</title>
+  <style>
+    /* Estilos básicos já existentes */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: #fff0f5;
+      color: #333;
+      line-height: 1.6;
+      /* Removido padding-top daqui, pois o novo wrapper de conteúdo cuidará disso */
+      /* ✅ IMPORTANTE: Garante que o body não tenha rolagem própria */
+      overflow: hidden; /* Oculta a barra de rolagem principal do body */
+      height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+      position: relative; /* Necessário para o posicionamento absoluto do wrapper */
+    }
+
+    /* ✅ CORREÇÃO CRÍTICA MAIS FORTE: Garante que html e body não criem um novo contexto de empilhamento/contenção */
+    html, body {
+        transform: none !important;
+        filter: none !important;
+        perspective: none !important;
+        will-change: auto !important;
+        position: static !important; /* Garante que não haja position: relative ou absolute que possa interferir */
+        /* overflow: visible !important; - Removido aqui, pois 'body' agora tem 'overflow: hidden' */
+    }
+
+    /* ✅ NOVO: Wrapper para o conteúdo que deve rolar */
+    #main-scrollable-content {
+      position: absolute; /* Posiciona em relação ao body */
+      top: 60px; /* Espaço para os botões fixos no topo */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: auto; /* Adiciona rolagem vertical a este div */
+      -webkit-overflow-scrolling: touch; /* Melhora a rolagem em dispositivos iOS */
+      z-index: 10; /* Garante que esteja abaixo dos botões fixos */
+    }
+
+    .conteudo-com-fundo {
+      background-image: url('https://i.imgur.com/y12cTf7.jpeg');
+      background-repeat: repeat;
+      background-size: contain;
+      background-position: center;
+      background-attachment: scroll;
+      background-blend-mode: lighten;
+      background-color: rgba(255, 240, 245, 0.9);
+    }
+
+    .banner {
+      background-color: #f8bbd0;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative; /* Mantido para empilhamento correto com o conteúdo */
+      z-index: 1; /* Mantido para empilhamento correto com o conteúdo */
+    }
+
+    .banner-placeholder {
+      font-size: 1.5rem;
+      color: #7b1fa2;
+      font-weight: bold;
+    }
+
+    .cta {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .cta button {
+      background-color: #e91e63;
+      color: white;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cta button:hover {
+      background-color: #d81b60;
+    }
+
+    #destaques {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    #destaques h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #c2185b;
+    }
+
+    .slider-wrapper {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slider {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 10px 0;
+      scroll-snap-type: x mandatory;
+    }
+
+    .slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slider .produto-card {
+      scroll-snap-align: center;
+      flex: 0 0 47%;
+      min-width: 47%;
+    }
+
+    .slider-indicadores {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .slider-indicadores .indicador {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 5px;
+      background-color: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .slider-indicadores .indicador.ativo {
+      background-color: #e91e63;
+    }
+
+    #produtos {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    #produtos h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #c2185b;
+    }
+
+    .produtos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .produto-card {
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .produto-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .produto-card img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      background-color: white;
+      padding: 8px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .produto-card img:hover {
+      transform: scale(1.02);
+    }
+
+    .produto-card h3 {
+      font-size: 1.2rem;
+      color: #880e4f;
+      margin: 10px 0;
+    }
+
+    .produto-card .preco {
+      font-size: 1rem;
+      color: #6a1b9a;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .grupo-botoes {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-comprar {
+      background-color: #00a88f;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-comprar:hover {
+      background-color: #008f7b;
+    }
+
+    .coração {
+      font-size: 1.4rem;
+      color: #e91e63;
+      user-select: none;
+    }
+
+    /* Modal personalizado */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 20% auto;
+      padding: 30px 20px;
+      max-width: 320px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .botoes-modal button {
+      display: inline-block;
+      margin: 8px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .botoes-modal button:first-child {
+      background-color: #00a88f;
+      color: white;
+    }
+
+    .botoes-modal button:first-child:hover {
+      background-color: #00927c;
+    }
+
+    .botoes-modal button:last-child {
+      background-color: white;
+      color: #00a88f;
+      border: 2px solid #00a88f;
+    }
+
+    .botoes-modal button:last-child:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Carrinho lateral */
+    .carrinho {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 320px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 9000;
+    }
+
+    .carrinho.aberto {
+      transform: translateX(0%);
+    }
+
+    .carrinho-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .carrinho-itens .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12px 0;
+    }
+
+    .carrinho-itens .item span {
+      font-size: 0.9rem;
+    }
+
+    .controles-quantidade {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .controles-quantidade button {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .controles-quantidade button:hover {
+      background-color: #c2185b;
+    }
+
+    /* Total do carrinho */
+    #total-carrinho {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      color: #e91e63;
+      background-color: #fce4ec;
+      border-radius: 10px;
+      padding: 12px 20px;
+    }
+
+    /* Botão CONCLUIR PEDIDO estilizado */
+    .finalizar-compra {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .botao-finalizar {
+      background-color: #00a88f;
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .botao-finalizar:hover {
+      background-color: #00927c;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    .botao-finalizar::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 10%, transparent 60%);
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .botao-finalizar:active::before {
+      transform: scale(1.2);
+      opacity: 1;
+      transition: transform 0s, opacity 0s;
+    }
+
+    @media (max-width: 600px) {
+      .produto-card img {
+        height: 200px;
+      }
+
+      .slider .produto-card {
+        min-width: 90%;
+        flex: 0 0 90%;
+      }
+    }
+    .banner-img {
+      width: 100%;
+      max-width: 1200px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Lightbox personalizado */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 8000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .fechar-lightbox {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Responsividade aprimorada para telas menores */
+    @media (max-width: 500px) {
+      .produtos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 0 10px;
+      }
+
+      .produto-card {
+        padding: 12px;
+      }
+
+      .produto-card h3 {
+        font-size: 1rem;
+      }
+
+      .produto-card .preco {
+        font-size: 0.95rem;
+      }
+
+      .btn-comprar {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* ✅ Botões fixos com z-index muito alto e posicionamento correto */
+    #botao-categorias-fixo {
+      position: fixed !important;
+      top: 15px !important;
+      left: 15px !important;
+      z-index: 99999 !important; /* Muito alto para ficar acima de tudo */
+    }
+
+    #botao-categorias-fixo button {
+      background-color: #fff;
+      border: 2px solid #f2c2d1;
+      border-radius: 30px;
+      padding: 8px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 14px;
+      font-weight: 600;
+      color: #d66b96;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    #botao-categorias-fixo button:hover {
+      background-color: #fff0f5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ✅ Botão do carrinho com z-index muito alto */
+    #botao-carrinho-fixo {
+      position: fixed !important;
+      top: 15px !important;
+      right: 15px !important;
+      z-index: 99999 !important; /* Muito alto para ficar acima de tudo */
+    }
+
+    #botao-carrinho-topo {
+      background-color: #fff;
+      border: 2px solid #f2c2d1;
+      border-radius: 30px;
+      padding: 8px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 14px;
+      font-weight: 600;
+      color: #d66b96;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    #botao-carrinho-topo:hover {
+      background-color: #fff0f5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ✅ Menu de categorias com z-index alto mas menor que os botões */
+    #menu-categorias {
+      position: fixed;
+      top: 65px;
+      left: 15px;
+      background-color: white;
+      border: 2px solid #f2c2d1;
+      border-radius: 12px;
+      padding: 12px;
+      display: none;
+      flex-direction: column;
+      z-index: 50000; /* Alto mas menor que os botões fixos */
+      max-height: 70vh;
+      overflow-y: auto;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      min-width: 200px;
+    }
+
+    #menu-categorias a {
+      margin: 4px 0;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #c2185b;
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    #menu-categorias a:hover {
+      background-color: #fff0f5;
+      color: #880e4f;
+      transform: translateX(3px);
+    }
+
+    /* ✅ Garante que banner e fundo fiquem abaixo dos botões fixos */
+    .banner,
+    .conteudo-com-fundo {
+      position: relative;
+      z-index: 1;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- ✅ Botões fixos devem sempre vir primeiro no HTML para facilitar o z-index e posicionamento -->
+<!-- Botão Carrinho fixo no topo à direita -->
+<div id="botao-carrinho-fixo">
+  <button onclick="abrirCarrinho()" id="botao-carrinho-topo">
+    🛍️ <span id="contador-itens">(0)</span>
+  </button>
+</div>
+
+<!-- Botão Categorias fixo à esquerda -->
+<div id="botao-categorias-fixo">
+  <button onclick="toggleMenuCategorias()">☰ Categorias</button>
+</div>
+
+<!-- Menu de categorias -->
+<nav id="menu-categorias">
+  <a href="#categoria-labios">💄 Lábios</a>
+  <a href="#categoria-unhas">💅 Unhas</a>
+  <a href="#categoria-cabelos">💇‍♀️ Cabelos</a>
+  <a href="#categoria-rosto">🌸 Rosto</a>
+  <a href="#categoria-corpo">🧴 Corpo e Banho</a>
+  <a href="#categoria-olhos">👁️ Olhos</a>
+  <a href="#categoria-pes">🦶 Pés</a>
+  <a href="#categoria-perfumes">🌺 Perfumes</a>
+  <a href="#categoria-acessorios">👜 Acessórios</a>
+  <a href="#categoria-joias">💍 Jóias em Prata</a>
+  <a href="#categoria-promocao">🔥 Promoção</a>
+</nav>
+
+<!-- ✅ NOVO: Wrapper para o conteúdo que deve rolar -->
+<div id="main-scrollable-content">
+  <section class="banner">
+    <img src="https://i.imgur.com/vOFvxnC.png" alt="Banner da loja" class="banner-img">
+  </section>
+
+  <div class="conteudo-com-fundo">
+    <section class="cta">
+      <button onclick="document.getElementById('destaques').scrollIntoView({ behavior: 'smooth' })">Ver produtos</button>
+    </section>
+
+    <section id="destaques">
+      <h2>Destaques da Loja</h2>
+      <div class="slider-wrapper" id="slider-wrapper">
+        <div class="slider" id="slider">
+          <!-- PRODUTOS DESTAQUES (mantidos todos os 4) -->
+          <div class="produto-card">
+          <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
+          <h3>Hidratante Melu - Ruby Rose</h3>
+          <p class="preco">R$ 27,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
+          <h3>Fixador de Maquiagem - Ruby Rose</h3>
+          <p class="preco">R$ 23,78</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
+          <h3>Desodorante Aerossol - MELU</h3>
+          <p class="preco">R$ 13,86</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
+          <h3>Sabonete Facial Extrato de Uva - MELU</h3>
+          <p class="preco">R$ 23,95</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        </div>
+        <div class="slider-indicadores" id="slider-indicadores"></div>
+      </div>
+    </section>
+
+    <section id="produtos">
+      <h2>Todos os Produtos</h2>
+      <div class="produtos-grid">
+        <!-- TODOS OS PRODUTOS MANTIDOS -->
+        
+        <div class="produto-card">
+          <img src="https://i.imgur.com/zevTlDG.jpeg" alt="Hidratante Melu - Ruby Rose">
+          <h3>Hidratante Melu - Ruby Rose</h3>
+          <p class="preco">R$ 27,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/AfnNExd.jpeg?1" alt="Fixador de maquiagem Ruby Rose">
+          <h3>Fixador de Maquiagem - Ruby Rose</h3>
+          <p class="preco">R$ 23,78</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/TibFJ63.jpeg?1" alt="Desodorante Aerossol - MELU">
+          <h3>Desodorante Aerossol - MELU</h3>
+          <p class="preco">R$ 13,86</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/iJJW6Yc.jpeg?1" alt="Sabonete Facial Extrato de Uva - MELU">
+          <h3>Sabonete Facial Extrato de Uva - MELU</h3>
+          <p class="preco">R$ 23,95</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/TNE7c7N.jpeg" alt="Sabonete Facial Cremoso - Ruby Skin - Ruby Rose">
+          <h3>Sabonete Facial Cremoso - Ruby Skin - Ruby Rose</h3>
+          <p class="preco">R$ 16,30</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/hI24EOy.jpeg" alt="Carmed Isis - Hidratante Labial - Amora">
+          <h3>Carmed Isis - Hidratante Labial - Amora</h3>
+          <p class="preco">R$ 10,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/J9qRqow.jpeg" alt="Carmed Isis - Hidratante Labial - Banana">
+          <h3>Carmed Isis - Hidratante Labial - Banana</h3>
+          <p class="preco">R$ 10,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/LTzzst8.jpeg" alt="Máscara de Cílios - MELU">
+          <h3>Máscara de Cílios - MELU</h3>
+          <p class="preco">R$ 21,85</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/joJAZfE.jpeg" alt="Blush Duo - Ruby Rose">
+          <h3>Blush Duo - Ruby Rose</h3>
+          <p class="preco">R$ 30,65</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+        <div class="produto-card">
+          <img src="https://i.imgur.com/hZD9CK0.jpeg?1" alt="Gloss - Bobbi Rara">
+          <h3>Gloss - Bobbi Rara</h3>
+          <p class="preco">R$ 11,95</p>
+          <div class="grupo-botoes">
+            <button class="btn-comprar">Comprar</button>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p style="font-size: 12px; color: #888; text-align: center; padding: 20px 10px;">
+      Imagem de fundo com créditos a Freepik
+    </p>
+  </footer>
+</div> <!-- Fim de #main-scrollable-content -->
+
+<!-- MODAL de confirmação atualizado -->
+<div id="modal-opcoes" class="modal">
+  <div class="modal-content">
+    <p>Produto adicionado ao carrinho!</p>
+    <div class="botoes-modal">
+      <button onclick="fecharModal();abrirCarrinho()">Ir para o Carrinho</button>
+      <button onclick="fecharModal()">Continuar Comprando</button>
+    </div>
+  </div>
+</div>
+
+<!-- Carrinho Lateral -->
+<div id="carrinho" class="carrinho">
+  <div class="carrinho-header">
+    <h3>Seu Carrinho</h3>
+    <button onclick="fecharCarrinho()">✕</button>
+  </div>
+  <div id="carrinho-itens" class="carrinho-itens"></div>
+
+  <div id="total-carrinho">
+    🛍️ <strong>Total:</strong> <span id="valor-total">R$ 0,00</span>
+  </div>
+
+  <!-- Botão de concluir pedido moderno -->
+  <div class="finalizar-compra">
+    <button class="botao-finalizar" onclick="irParaCheckout()">✨ CONCLUIR PEDIDO ✨</button>
+  </div>
+</div>
+
+<!-- ✅ Agora está fora do carrinho -->
+<div id="lightbox" class="lightbox">
+  <span class="fechar-lightbox" onclick="fecharLightbox()">✕</span>
+  <img id="lightbox-img" src="" alt="Imagem ampliada">
+</div>
+
+<script>
+  const slider = document.getElementById('slider');
+  const wrapper = document.getElementById('slider-wrapper');
+  const cards = slider.querySelectorAll('.produto-card');
+  const indicadores = document.getElementById('slider-indicadores');
+  let currentIndex = 0;
+  let isPaused = false;
+
+  const cardsPorSlide = 2;
+  const totalSlides = Math.ceil(cards.length / cardsPorSlide);
+
+  function scrollToSlide(index) {
+    const cardWidth = cards[0].offsetWidth + 20;
+    slider.scrollTo({ left: cardWidth * cardsPorSlide * index, behavior: 'smooth' });
+
+    Array.from(indicadores.children).forEach((dot, i) => {
+      dot.classList.toggle('ativo', i === index);
+    });
+  }
+
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('span');
+    dot.classList.add('indicador');
+    if (i === 0) dot.classList.add('ativo');
+    dot.addEventListener('click', () => {
+      currentIndex = i;
+      scrollToSlide(currentIndex);
+    });
+    indicadores.appendChild(dot);
+  }
+
+  setInterval(() => {
+    if (!isPaused) {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      scrollToSlide(currentIndex);
+    }
+  }, 3500);
+
+  wrapper.addEventListener('mouseenter', () => isPaused = true);
+  wrapper.addEventListener('mouseleave', () => isPaused = false);
+  wrapper.addEventListener('touchstart', () => isPaused = true);
+  wrapper.addEventListener('touchend', () => isPaused = false);
+
+  const modal = document.getElementById("modal-opcoes");
+  const carrinho = document.getElementById("carrinho");
+  const carrinhoItens = document.getElementById("carrinho-itens");
+  const totalSpan = document.getElementById("valor-total");
+  const contadorItens = document.getElementById("contador-itens");
+
+  let carrinhoDados = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  function abrirModal() {
+    modal.style.display = "block";
+  }
+
+  function fecharModal() {
+    modal.style.display = "none";
+  }
+
+  function abrirCarrinho() {
+    carrinho.classList.add("aberto");
+    atualizarCarrinhoUI();
+  }
+
+  function fecharCarrinho() {
+    carrinho.classList.remove("aberto");
+  }
+
+  function adicionarAoCarrinho(nome, preco) {
+  const itemExistente = carrinhoDados.find(p => p.nome === nome);
+  if (itemExistente) {
+    itemExistente.quantidade += 1;
+  } else {
+    carrinhoDados.push({ nome, preco, quantidade: 1 });
+  }
+  localStorage.setItem("carrinho", JSON.stringify(carrinhoDados)); // <-- salva no localStorage
+  abrirModal();
+  atualizarCarrinhoUI();
+}
+
+
+  function alterarQuantidade(nome, delta) {
+  const item = carrinhoDados.find(p => p.nome === nome);
+  if (!item) return;
+  item.quantidade += delta;
+  if (item.quantidade <= 0) {
+    carrinhoDados = carrinhoDados.filter(p => p.nome !== nome);
+  }
+  localStorage.setItem("carrinho", JSON.stringify(carrinhoDados)); // <-- salva no localStorage
+  atualizarCarrinhoUI();
+}
+
+  function atualizarCarrinhoUI() {
+    carrinhoItens.innerHTML = "";
+    let total = 0;
+    let totalItens = 0;
+
+    carrinhoDados.forEach(item => {
+      total += item.preco * item.quantidade;
+      totalItens += item.quantidade;
+
+      const div = document.createElement("div");
+      div.classList.add("item");
+      div.innerHTML = `
+        <span>${item.nome} (R$ ${item.preco.toFixed(2).replace('.', ',')})</span>
+        <div class="controles-quantidade">
+          <button onclick="alterarQuantidade('${item.nome}', -1)">−</button>
+          <span>${item.quantidade}</span>
+          <button onclick="alterarQuantidade('${item.nome}', 1)">+</button>
+        </div>
+      `;
+      carrinhoItens.appendChild(div);
+    });
+
+    totalSpan.textContent = "R$ " + total.toFixed(2).replace(".", ",");
+    contadorItens.textContent = `(${totalItens})`;
+  }
+
+  document.querySelectorAll(".btn-comprar").forEach(botao => {
+    botao.addEventListener("click", () => {
+      const card = botao.closest(".produto-card");
+      const nome = card.querySelector("h3").innerText;
+      const preco = card.querySelector(".preco").innerText.replace("R$ ", "").replace(",", ".");
+      adicionarAoCarrinho(nome, parseFloat(preco));
+    });
+  });
+
+  function irParaCheckout() {
+  window.location.href = "checkout.html";
+}
+function toggleMenuCategorias() {
+  const menu = document.getElementById("menu-categorias");
+  if (menu.style.display === "flex") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "flex";
+  }
+}
+
+// Se o hash da URL for #carrinho, abre o carrinho automaticamente ao carregar a página
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === "#carrinho") {
+    abrirCarrinho();
+  }
+});
+
+</script>
+  
+<script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+
+  function abrirLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.style.display = "flex";
+  }
+
+  function fecharLightbox() {
+    lightbox.style.display = "none";
+    lightboxImg.src = "";
+  }
+
+  // Adiciona o evento de clique em todas as imagens dos produtos
+  document.querySelectorAll(".produto-card img").forEach(img => {
+    img.addEventListener("click", () => {
+      abrirLightbox(img.src);
+    });
+  });
+</script>
+
+</body>
+</html>
+>>>>>>> eccd6d606eb05cc9a7d202bd2d36d019d2d1d4ee
